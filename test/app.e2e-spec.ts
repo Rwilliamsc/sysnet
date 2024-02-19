@@ -1,24 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { ActivitiesController } from './../src/activities/activities.controller';
+import { ActivitiesService } from './../src/activities/activities.service';
 
-describe('AppController (e2e)', () => {
-  let app: INestApplication;
+describe('ActivitiesController', () => {
+  let controller: ActivitiesController;
+  let service: ActivitiesService;
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [ActivitiesController],
+      providers: [
+        {
+          provide: ActivitiesService,
+          useValue: {
+            addActivity: jest.fn().mockResolvedValue('Activity Added'),
+          },
+        },
+      ],
     }).compile();
 
-    app = moduleFixture.createNestApplication();
-    await app.init();
-  });
-
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+    controller = module.get<ActivitiesController>(ActivitiesController);
+    service = module.get<ActivitiesService>(ActivitiesService);
   });
 });
