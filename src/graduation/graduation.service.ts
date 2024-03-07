@@ -1,31 +1,42 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateGraduationDto } from './dto/create-graduation.dto'
 import { UpdateGraduationDto } from './dto/update-graduation.dto'
 import { PrismaService } from '@/prisma/prisma.service'
+import { GraduationRepository } from './repository/graduation.repository'
 
 @Injectable()
 export class GraduationService {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly repository: GraduationRepository
+
   create(createGraduationDto: CreateGraduationDto) {
-    return this.prisma.graduation.create({ data: createGraduationDto })
+    return this.repository.create(createGraduationDto)
   }
 
   findAll() {
-    return this.prisma.graduation.findMany()
+    return this.repository.findAll()
   }
 
   findOne(id: number) {
-    return this.prisma.graduation.findUnique({ where: { id } })
+    return this.repository.findOne(id)
   }
 
-  update(id: number, updateGraduationDto: UpdateGraduationDto) {
-    return this.prisma.graduation.update({
-      where: { id },
-      data: updateGraduationDto,
-    })
+  async update(id: number, updateGraduationDto: UpdateGraduationDto) {
+    const graduation = await this.repository.findOne(id)
+
+    if (!graduation) {
+      throw new NotFoundException(`Graduation ${id} not found`)
+    }
+
+    return this.repository.update(id, updateGraduationDto)
   }
 
-  remove(id: number) {
-    return this.prisma.graduation.delete({ where: { id } })
+  async remove(id: number) {
+    const graduation = await this.repository.findOne(id)
+
+    if (!graduation) {
+      throw new NotFoundException(`Graduation ${id} not found`)
+    }
+
+    return this.repository.delete(id)
   }
 }
