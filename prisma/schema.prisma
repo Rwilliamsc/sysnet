@@ -11,10 +11,78 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
+  id              Int @id @default(autoincrement())
+  documentNumber  String @unique
+  email           String @unique
+  password        String
+  name            String
+  role            String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  activity        Activity[]
 
-  email    String @unique
-  password String
+  @@map("users")
+}
 
-  name String
+model Graduation{
+  id          Int @id @default(autoincrement())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  activity    Activity[]
+
+  @@map("graduations")
+}
+
+model Quarter{
+  id          Int @id @default(autoincrement())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  activity    Activity[]
+
+  @@map("quarters")
+}
+
+model ActivityType{
+  id          Int @id @default(autoincrement())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  activity    Activity[]
+
+  @@map("activity_types")
+}
+
+model EvidenceType{
+  id          Int @id @default(autoincrement())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  activity    Activity[]
+
+  @@map("evidence_types")
+}
+
+model Activity {
+  id              Int @id @default(autoincrement())
+  activityDate    DateTime
+  activityHours   Int
+  urlEvidence     String
+  approved        Boolean
+  status          String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  graduationId    Int
+  graduation      Graduation @relation(fields: [graduationId], references: [id])
+  quarterId       Int
+  quarter         Quarter @relation(fields: [quarterId], references: [id])
+  activityTypeId  Int
+  activityType    ActivityType @relation(fields: [activityTypeId], references: [id])
+  evidenceTypeId  Int
+  evidenceType    EvidenceType @relation(fields: [evidenceTypeId], references: [id])
+  userId          Int
+  user            User @relation(fields: [userId], references: [id])
+
+  @@map("activities")
 }
