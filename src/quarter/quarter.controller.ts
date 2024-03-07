@@ -26,17 +26,17 @@ export class QuarterController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.quarterService.findOne(+id)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuarterDto: UpdateQuarterDto) {
+  update(@Param('id') id: number, @Body() updateQuarterDto: UpdateQuarterDto) {
     return this.quarterService.update(+id, updateQuarterDto)
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.quarterService.remove(+id)
   }
 }

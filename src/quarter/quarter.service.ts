@@ -1,29 +1,42 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateQuarterDto } from './dto/create-quarter.dto'
 import { UpdateQuarterDto } from './dto/update-quarter.dto'
 import { PrismaService } from '@/prisma/prisma.service'
+import { QuarterRepository } from './repository/quarter.repository'
 
 @Injectable()
 export class QuarterService {
-  private readonly prisma: PrismaService
+  private readonly repository: QuarterRepository
 
   create(createQuarterDto: CreateQuarterDto) {
-    return this.prisma.quarter.create({ data: createQuarterDto })
+    return this.repository.create(createQuarterDto)
   }
 
   findAll() {
-    return this.prisma.quarter.findMany()
+    return this.repository.findAll()
   }
 
   findOne(id: number) {
-    return this.prisma.quarter.findUnique({ where: { id } })
+    return this.repository.findOne(id)
   }
 
-  update(id: number, updateQuarterDto: UpdateQuarterDto) {
-    return this.prisma.quarter.update({ where: { id }, data: updateQuarterDto })
+  async update(id: number, updateQuarterDto: UpdateQuarterDto) {
+    const quarter = await this.repository.findOne(id)
+
+    if (!quarter) {
+      throw new NotFoundException(`Quarter ${id} not found`)
+    }
+
+    return this.repository.update(id, updateQuarterDto)
   }
 
-  remove(id: number) {
-    return this.prisma.quarter.delete({ where: { id } })
+  async remove(id: number) {
+    const quarter = await this.repository.findOne(id)
+
+    if (!quarter) {
+      throw new NotFoundException(`Quarter ${id} not found`)
+    }
+
+    return this.repository.remove(id)
   }
 }
