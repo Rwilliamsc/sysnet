@@ -9,6 +9,8 @@ import { UserModule } from './user/user.module'
 import { ActivitiesModule } from './activities/activities.module'
 import { GraduationModule } from './graduation/graduation.module'
 import { QuarterModule } from './quarter/quarter.module';
+import { ActivityTypeModule } from './activity-type/activity-type.module';
+import { EvidenceTypeModule } from './evidence-type/evidence-type.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { QuarterModule } from './quarter/quarter.module';
     AuthModule,
     GraduationModule,
     QuarterModule,
+    ActivityTypeModule,
+    EvidenceTypeModule,
   ],
   controllers: [AppController],
   providers: [
