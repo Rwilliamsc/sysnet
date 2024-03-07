@@ -1,10 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ActivitiesController } from './activities.controller';
-import { ActivitiesService } from './activities.service';
+import { Test, TestingModule } from '@nestjs/testing'
+import { ActivitiesController } from './activities.controller'
+import { ActivitiesService } from './activities.service'
 
 describe('ActivitiesController', () => {
-  let controller: ActivitiesController;
-  let service: ActivitiesService;
+  let controller: ActivitiesController
+  let service: ActivitiesService
 
   beforeEach(async () => {
     // Mock do ActivitiesService
@@ -13,7 +13,7 @@ describe('ActivitiesController', () => {
         { id: 1, name: 'Activity One' },
         { id: 2, name: 'Activity Two' },
       ]),
-    };
+    }
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ActivitiesController],
@@ -23,25 +23,25 @@ describe('ActivitiesController', () => {
           useValue: mockActivitiesService,
         },
       ],
-    }).compile();
+    }).compile()
 
-    controller = module.get<ActivitiesController>(ActivitiesController);
-    service = module.get<ActivitiesService>(ActivitiesService);
-  });
+    controller = module.get<ActivitiesController>(ActivitiesController)
+    service = module.get<ActivitiesService>(ActivitiesService)
+  })
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
+    expect(controller).toBeDefined()
+  })
 
   it('should return an array of activities', async () => {
     // Chamada do método que queremos testar
-    const result = await controller.findAll();
+    const result = await controller.findAll()
     // Verifica se o resultado é o esperado
     expect(result).toEqual([
       { id: 1, name: 'Activity One' },
       { id: 2, name: 'Activity Two' },
-    ]);
+    ])
     // Verifica se o serviço foi chamado corretamente
-    expect(service.findAll).toHaveBeenCalled();
-  });
-});
+    expect(service.findAll).toHaveBeenCalled()
+  })
+})

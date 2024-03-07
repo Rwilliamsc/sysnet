@@ -1,32 +1,41 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateActivityTypeDto } from './dto/create-activity-type.dto'
 import { UpdateActivityTypeDto } from './dto/update-activity-type.dto'
 import { PrismaService } from '@/prisma/prisma.service'
+import { ActivityTypeRepository } from './repository/activity-type.repository'
 
 @Injectable()
 export class ActivityTypeService {
-  private readonly prisma: PrismaService
+  private readonly repository: ActivityTypeRepository
 
   create(createActivityTypeDto: CreateActivityTypeDto) {
-    return this.prisma.activityType.create({ data: createActivityTypeDto })
+    return this.repository.create(createActivityTypeDto)
   }
 
   findAll() {
-    return this.prisma.activityType.findMany()
+    return this.repository.findAll()
   }
 
   findOne(id: number) {
-    return this.prisma.activityType.findUnique({ where: { id } })
+    return this.repository.findOne(id)
   }
 
   update(id: number, updateActivityTypeDto: UpdateActivityTypeDto) {
-    return this.prisma.activityType.update({
-      where: { id },
-      data: updateActivityTypeDto,
-    })
+    const activityType = this.repository.findOne(id)
+
+    if (!activityType) {
+      throw new NotFoundException(`Activity type ${id} not found`)
+    }
+    return this.repository.update(id, updateActivityTypeDto)
   }
 
   remove(id: number) {
-    return this.prisma.activityType.delete({ where: { id } })
+    const activityType = this.repository.findOne(id)
+
+    if (!activityType) {
+      throw new NotFoundException(`Activity type ${id} not found`)
+    }
+
+    return this.repository.delete(id)
   }
 }
