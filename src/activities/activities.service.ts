@@ -1,31 +1,21 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common'
 import { CreateActivityDto } from './dto/create-activity.dto'
 import { UpdateActivityDto } from './dto/update-activity.dto'
-import { Activity } from './entities/activity.entity'
-import { randomUUID } from 'crypto'
+import { PrismaService } from '@/prisma/prisma.service'
 
 @Injectable()
 export class ActivitiesService {
-  private activities: Activity[] = []
+  private readonly prisma: PrismaService
   create(createActivityDto: CreateActivityDto) {
-    const data: Activity = {
-      ...createActivityDto,
-      id: randomUUID(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
-
-    this.activities.push(data)
-
-    return data
+    return this.prisma.activity.create({ data: createActivityDto })
   }
 
   findAll() {
-    return this.activities
+    return this.prisma.activity.findMany()
   }
 
-  findOne(id: string) {
-    const activity = this.activities.find(activity => activity.id === id)
+  findOne(id: number) {
+    const activity = this.prisma.activity.findUnique({ where: { id } })
 
     if (!activity) {
       throw new NotAcceptableException(`Activity ${id} not found`)
@@ -34,32 +24,20 @@ export class ActivitiesService {
     return activity
   }
 
-  update(id: string, updateActivityDto: UpdateActivityDto) {
-    const index = this.activities.findIndex(activity => activity.id === id)
-
-    if (index === -1) {
-      throw new NotAcceptableException(`Activity ${id} not found`)
-    }
-
-    const activity = this.activities[index]
-    const updateActivity: Activity = {
-      ...activity,
-      ...updateActivityDto,
-      updatedAt: new Date(),
-    }
-
-    this.activities[index] = updateActivity
-
-    return updateActivity
+  update(id: number, updateActivityDto: UpdateActivityDto) {
+    return this.prisma.activity.update({
+      where: { id },
+      data: updateActivityDto,
+    })
   }
 
-  remove(id: string) {
-    const index = this.activities.findIndex(activity => activity.id === id)
+  remove(id: number) {
+    const activity = this.prisma.activity.findUnique({ where: { id } })
 
-    if (index === -1) {
+    if (!activity) {
       throw new NotAcceptableException(`Activity ${id} not found`)
     }
 
-    this.activities.splice(index, 1)
+    return this.prisma.activity.delete({ where: { id } })
   }
 }

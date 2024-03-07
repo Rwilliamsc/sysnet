@@ -1,12 +1,15 @@
 export class Activity {
-  id: string
-  documentNumber: string
-  description: string
-  activityType: string
-  hours: number
-  approver?: string
+  id: number
+  activityDate: Date
+  activityHours: number
+  urlEvidence: string
+  approved: boolean
   status: string
-  evidence: string
+  graduationId: number
+  quarterId: number
+  activityTypeId: number
+  evidenceTypeId: number
+  userId: number
   createdAt: Date
   updatedAt: Date
 }

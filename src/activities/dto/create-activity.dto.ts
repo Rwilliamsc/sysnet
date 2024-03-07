@@ -1,25 +1,32 @@
-import { IsDate, IsNumber, IsString, IsUrl } from 'class-validator'
+import {
+  IsBoolean,
+  IsDate,
+  IsEnum,
+  IsNumber,
+  IsString,
+  IsUrl,
+} from 'class-validator'
 
 export class CreateActivityDto {
-  @IsString()
-  documentNumber: string
-
-  @IsString()
-  description: string
-
-  @IsString()
-  activityType: string
-
+  @IsDate()
+  activityDate: string
   @IsNumber()
-  hours: number
-
-  @IsUrl({
-    require_protocol: true,
-    require_host: true,
-    require_valid_protocol: true,
-  })
-  evidence: string
-
+  activityHours: number
   @IsString()
+  @IsUrl({ require_protocol: true })
+  urlEvidence: string
+  @IsBoolean()
+  approved: boolean
+  @IsEnum(['pending', 'approved', 'rejected'])
   status: string
+  @IsNumber()
+  graduationId: number
+  @IsNumber()
+  quarterId: number
+  @IsNumber()
+  activityTypeId: number
+  @IsNumber()
+  evidenceTypeId: number
+  @IsNumber()
+  userId: number
 }
