@@ -26,20 +26,20 @@ export class ActivitiesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.activitiesService.findOne(id)
+  findOne(@Param('id') id: number) {
+    return this.activitiesService.findOne(+id)
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateActivityDto: UpdateActivityDto,
   ) {
-    return this.activitiesService.update(id, updateActivityDto)
+    return this.activitiesService.update(+id, updateActivityDto)
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.activitiesService.remove(id)
+  remove(@Param('id') id: number) {
+    return this.activitiesService.remove(+id)
   }
 }

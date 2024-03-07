@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateActivityTypeDto } from './dto/create-activity-type.dto'
 import { UpdateActivityTypeDto } from './dto/update-activity-type.dto'
-import { PrismaService } from '@/prisma/prisma.service'
 import { ActivityTypeRepository } from './repository/activity-type.repository'
 
 @Injectable()
@@ -20,8 +19,8 @@ export class ActivityTypeService {
     return this.repository.findOne(id)
   }
 
-  update(id: number, updateActivityTypeDto: UpdateActivityTypeDto) {
-    const activityType = this.repository.findOne(id)
+  async update(id: number, updateActivityTypeDto: UpdateActivityTypeDto) {
+    const activityType = await this.repository.findOne(id)
 
     if (!activityType) {
       throw new NotFoundException(`Activity type ${id} not found`)
@@ -29,8 +28,8 @@ export class ActivityTypeService {
     return this.repository.update(id, updateActivityTypeDto)
   }
 
-  remove(id: number) {
-    const activityType = this.repository.findOne(id)
+  async remove(id: number) {
+    const activityType = await this.repository.findOne(id)
 
     if (!activityType) {
       throw new NotFoundException(`Activity type ${id} not found`)

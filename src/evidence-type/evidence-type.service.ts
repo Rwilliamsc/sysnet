@@ -1,32 +1,40 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateEvidenceTypeDto } from './dto/create-evidence-type.dto'
 import { UpdateEvidenceTypeDto } from './dto/update-evidence-type.dto'
 import { PrismaService } from '@/prisma/prisma.service'
+import { EvidenceTypeRepository } from './repository/evidence-type.repository'
 
 @Injectable()
 export class EvidenceTypeService {
-  private readonly prisma: PrismaService
+  private readonly repository: EvidenceTypeRepository
 
   create(createEvidenceTypeDto: CreateEvidenceTypeDto) {
-    return this.prisma.evidenceType.create({ data: createEvidenceTypeDto })
+    return this.repository.create(createEvidenceTypeDto)
   }
 
   findAll() {
-    return this.prisma.evidenceType.findMany()
+    return this.repository.findAll()
   }
 
   findOne(id: number) {
-    return this.prisma.evidenceType.findUnique({ where: { id } })
+    return this.repository.findOne(id)
   }
 
-  update(id: number, updateEvidenceTypeDto: UpdateEvidenceTypeDto) {
-    return this.prisma.evidenceType.update({
-      where: { id },
-      data: updateEvidenceTypeDto,
-    })
+  async update(id: number, updateEvidenceTypeDto: UpdateEvidenceTypeDto) {
+    const evidenceType = await this.repository.findOne(id)
+
+    if (!evidenceType) {
+      throw new NotFoundException(`Evidence type ${id} not found`)
+    }
+    return this.repository.update(id, updateEvidenceTypeDto)
   }
 
-  remove(id: number) {
-    return this.prisma.evidenceType.delete({ where: { id } })
+  async remove(id: number) {
+    const evidenceType = await this.repository.findOne(id)
+
+    if (!evidenceType) {
+      throw new NotFoundException(`Evidence type ${id} not found`)
+    }
+    return this.repository.delete(id)
   }
 }
