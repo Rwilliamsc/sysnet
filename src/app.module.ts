@@ -8,6 +8,7 @@ import { PrismaModule } from './prisma/prisma.module'
 import { UserModule } from './user/user.module'
 import { ActivitiesModule } from './activities/activities.module'
 import { GraduationModule } from './graduation/graduation.module'
+import { QuarterModule } from './quarter/quarter.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { GraduationModule } from './graduation/graduation.module'
     UserModule,
     AuthModule,
     GraduationModule,
+    QuarterModule,
   ],
   controllers: [AppController],
   providers: [
