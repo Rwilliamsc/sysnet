@@ -1,21 +1,21 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common'
 import { CreateActivityDto } from './dto/create-activity.dto'
 import { UpdateActivityDto } from './dto/update-activity.dto'
-import { PrismaService } from '@/prisma/prisma.service'
+import { ActivityRepository } from './repository/activities.repository'
 
 @Injectable()
 export class ActivitiesService {
-  private readonly prisma: PrismaService
+  private readonly repository: ActivityRepository
   create(createActivityDto: CreateActivityDto) {
-    return this.prisma.activity.create({ data: createActivityDto })
+    return this.repository.create(createActivityDto)
   }
 
   findAll() {
-    return this.prisma.activity.findMany()
+    return this.repository.findAll()
   }
 
-  findOne(id: number) {
-    const activity = this.prisma.activity.findUnique({ where: { id } })
+  async findOne(id: number) {
+    const activity = await this.repository.findById(id)
 
     if (!activity) {
       throw new NotAcceptableException(`Activity ${id} not found`)
@@ -25,19 +25,16 @@ export class ActivitiesService {
   }
 
   update(id: number, updateActivityDto: UpdateActivityDto) {
-    return this.prisma.activity.update({
-      where: { id },
-      data: updateActivityDto,
-    })
+    return this.repository.update(id, updateActivityDto)
   }
 
-  remove(id: number) {
-    const activity = this.prisma.activity.findUnique({ where: { id } })
+  async remove(id: number) {
+    const activity = await this.repository.findById(id)
 
     if (!activity) {
       throw new NotAcceptableException(`Activity ${id} not found`)
     }
 
-    return this.prisma.activity.delete({ where: { id } })
+    return this.repository.delete(id)
   }
 }
