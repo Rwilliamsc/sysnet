@@ -8,8 +8,8 @@ import {
 } from 'class-validator'
 
 export class CreateActivityDto {
-  @IsDate()
-  activityDate: string
+  @IsString()
+  activityDate: Date
   @IsNumber()
   activityHours: number
   @IsString()

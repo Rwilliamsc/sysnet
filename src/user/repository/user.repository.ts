@@ -1,9 +1,10 @@
-import { PrismaService } from '@/prisma/prisma.service'
-import { User } from '../entities/user.entity'
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateUserDto } from '../dto/create-user.dto'
-import { Prisma } from '@prisma/client'
 import { UpdateUserDto } from '../dto/update-user.dto'
+import { User } from '../entities/user.entity'
 
+@Injectable()
 export class UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
@@ -11,23 +12,15 @@ export class UserRepository {
     return this.prisma.user.create({ data })
   }
 
-  async findAll(params: {
-    skip?: number
-    take?: number
-    cursor?: Prisma.UserWhereUniqueInput
-    where?: Prisma.UserWhereInput
-  }): Promise<User[]> {
-    const { skip, take, cursor, where } = params
-    return this.prisma.user.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-    })
+  async findAll(): Promise<User[]> {
+    return this.prisma.user.findMany()
   }
 
   async findOne(id: number): Promise<User | null> {
-    return this.prisma.user.findUnique({ where: { id } })
+    return this.prisma.user.findUnique({
+      where: { id },
+      include: { activity: true },
+    })
   }
 
   async findEmail(email: string): Promise<User | null> {

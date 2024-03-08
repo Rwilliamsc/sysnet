@@ -6,7 +6,7 @@ import { GraduationRepository } from './repository/graduation.repository'
 
 @Injectable()
 export class GraduationService {
-  private readonly repository: GraduationRepository
+  constructor(private readonly repository: GraduationRepository) {}
 
   create(createGraduationDto: CreateGraduationDto) {
     return this.repository.create(createGraduationDto)

@@ -6,7 +6,7 @@ import { QuarterRepository } from './repository/quarter.repository'
 
 @Injectable()
 export class QuarterService {
-  private readonly repository: QuarterRepository
+  constructor(private readonly repository: QuarterRepository) {}
 
   create(createQuarterDto: CreateQuarterDto) {
     return this.repository.create(createQuarterDto)

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
 import { ActivityTypeService } from './activity-type.service'
 import { ActivityTypeController } from './activity-type.controller'
-import { PrismaModule } from '@/prisma/prisma.module'
+
 import { ActivityTypeRepository } from './repository/activity-type.repository'
+import { PrismaService } from 'src/prisma/prisma.service'
 
 @Module({
-  imports: [PrismaModule],
   controllers: [ActivityTypeController],
-  providers: [ActivityTypeService, ActivityTypeRepository],
+  providers: [ActivityTypeService, PrismaService, ActivityTypeRepository],
 })
 export class ActivityTypeModule {}

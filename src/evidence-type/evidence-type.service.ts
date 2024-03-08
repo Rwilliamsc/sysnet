@@ -6,7 +6,7 @@ import { EvidenceTypeRepository } from './repository/evidence-type.repository'
 
 @Injectable()
 export class EvidenceTypeService {
-  private readonly repository: EvidenceTypeRepository
+  constructor(private readonly repository: EvidenceTypeRepository) {}
 
   create(createEvidenceTypeDto: CreateEvidenceTypeDto) {
     return this.repository.create(createEvidenceTypeDto)

@@ -5,7 +5,7 @@ import { ActivityTypeRepository } from './repository/activity-type.repository'
 
 @Injectable()
 export class ActivityTypeService {
-  private readonly repository: ActivityTypeRepository
+  constructor(private readonly repository: ActivityTypeRepository) {}
 
   create(createActivityTypeDto: CreateActivityTypeDto) {
     return this.repository.create(createActivityTypeDto)

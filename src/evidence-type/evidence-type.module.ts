@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common'
 import { EvidenceTypeService } from './evidence-type.service'
 import { EvidenceTypeController } from './evidence-type.controller'
-import { PrismaModule } from '@/prisma/prisma.module'
+import { PrismaService } from 'src/prisma/prisma.service'
 import { EvidenceTypeRepository } from './repository/evidence-type.repository'
 
 @Module({
-  imports: [PrismaModule],
   controllers: [EvidenceTypeController],
-  providers: [EvidenceTypeService, EvidenceTypeRepository],
+  providers: [EvidenceTypeService, PrismaService, EvidenceTypeRepository],
 })
 export class EvidenceTypeModule {}
