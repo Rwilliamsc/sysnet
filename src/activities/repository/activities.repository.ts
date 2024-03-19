@@ -24,6 +24,10 @@ export class ActivityRepository {
     return this.prisma.activity.findMany()
   }
 
+  async findAllPending(): Promise<Activity[]> {
+    return this.prisma.activity.findMany({ where: { status: 'pending' } })
+  }
+
   async update(id: number, data: UpdateActivityDto): Promise<Activity> {
     return this.prisma.activity.update({ where: { id }, data })
   }

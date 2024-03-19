@@ -25,6 +25,11 @@ export class ActivitiesController {
     return this.activitiesService.findAll()
   }
 
+  @Get('pending')
+  findAllPending() {
+    return this.activitiesService.findAllPending()
+  }
+
   @Get('byuser/:userId')
   findByUserId(@Param('userId') userId: number) {
     return this.activitiesService.findByUserId(+userId)

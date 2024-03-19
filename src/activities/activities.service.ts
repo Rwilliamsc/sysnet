@@ -15,6 +15,10 @@ export class ActivitiesService {
     return this.repository.findAll()
   }
 
+  findAllPending() {
+    return this.repository.findAllPending()
+  }
+
   async findOne(id: number) {
     const activity = await this.repository.findById(id)
 
