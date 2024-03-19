@@ -13,6 +13,5 @@ export class PrismaService extends PrismaClient implements OnModuleDestroy {
 
   // futuro gancho de desligamento para uso específico,
   async enableShutdownHooks(app: INestApplication) {
-    // futuro code para habilitar ganchos de desligamento, se necessário.
   }
 }
