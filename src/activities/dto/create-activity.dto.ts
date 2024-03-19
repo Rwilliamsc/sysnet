@@ -1,15 +1,10 @@
-import {
-  IsBoolean,
-  IsDate,
-  IsEnum,
-  IsNumber,
-  IsString,
-  IsUrl,
-} from 'class-validator'
+import { IsBoolean, IsEnum, IsNumber, IsString, IsUrl } from 'class-validator'
 
 export class CreateActivityDto {
   @IsString()
   activityDate: Date
+  @IsString()
+  description: string
   @IsNumber()
   activityHours: number
   @IsString()

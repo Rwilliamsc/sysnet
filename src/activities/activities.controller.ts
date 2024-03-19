@@ -25,6 +25,11 @@ export class ActivitiesController {
     return this.activitiesService.findAll()
   }
 
+  @Get('byuser/:userId')
+  findByUserId(@Param('userId') userId: number) {
+    return this.activitiesService.findByUserId(+userId)
+  }
+
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.activitiesService.findOne(+id)

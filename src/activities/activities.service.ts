@@ -25,6 +25,10 @@ export class ActivitiesService {
     return activity
   }
 
+  findByUserId(userId: number) {
+    return this.repository.findByUserId(userId)
+  }
+
   update(id: number, updateActivityDto: UpdateActivityDto) {
     return this.repository.update(id, updateActivityDto)
   }

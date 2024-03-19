@@ -16,6 +16,10 @@ export class ActivityRepository {
     return this.prisma.activity.findUnique({ where: { id } })
   }
 
+  async findByUserId(userId: number): Promise<Activity[]> {
+    return this.prisma.activity.findMany({ where: { userId: userId } })
+  }
+
   async findAll(): Promise<Activity[]> {
     return this.prisma.activity.findMany()
   }

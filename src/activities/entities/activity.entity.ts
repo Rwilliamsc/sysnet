@@ -1,6 +1,7 @@
 export class Activity {
   id: number
   activityDate: Date
+  description: string
   activityHours: number
   urlEvidence: string
   approved: boolean
