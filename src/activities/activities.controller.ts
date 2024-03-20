@@ -25,9 +25,9 @@ export class ActivitiesController {
     return this.activitiesService.findAll()
   }
 
-  @Get('pending')
-  findAllPending() {
-    return this.activitiesService.findAllPending()
+  @Get(':status')
+  findAllPending(@Param('status') status: string) {
+    return this.activitiesService.findAllStatus(status)
   }
 
   @Get('byuser/:userId')

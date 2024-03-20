@@ -15,8 +15,8 @@ export class ActivitiesService {
     return this.repository.findAll()
   }
 
-  findAllPending() {
-    return this.repository.findAllPending()
+  findAllStatus(status: string) {
+    return this.repository.findAllStatus(status)
   }
 
   async findOne(id: number) {
