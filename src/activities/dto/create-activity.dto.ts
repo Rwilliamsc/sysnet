@@ -5,6 +5,10 @@ export class CreateActivityDto {
   activityDate: Date
   @IsString()
   description: string
+  @IsString()
+  contestation: string
+  @IsBoolean()
+  contested: false
   @IsNumber()
   activityHours: number
   @IsString()
@@ -12,7 +16,7 @@ export class CreateActivityDto {
   urlEvidence: string
   @IsBoolean()
   approved: boolean
-  @IsEnum(['pending', 'approved', 'rejected'])
+  @IsEnum(['pending', 'approved', 'rejected', 'contested'])
   status: string
   @IsNumber()
   graduationId: number

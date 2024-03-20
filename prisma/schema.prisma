@@ -68,6 +68,8 @@ model Activity {
   id              Int @id @default(autoincrement())
   activityDate    DateTime
   description     String
+  contestation    String
+  contested       Boolean
   activityHours   Int
   urlEvidence     String
   approved        Boolean

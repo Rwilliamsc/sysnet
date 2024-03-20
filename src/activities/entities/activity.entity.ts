@@ -2,6 +2,8 @@ export class Activity {
   id: number
   activityDate: Date
   description: string
+  contestation: string
+  contested: boolean
   activityHours: number
   urlEvidence: string
   approved: boolean
