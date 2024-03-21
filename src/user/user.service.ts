@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common'
 import * as bcrypt from 'bcrypt'
 import { CreateUserDto } from './dto/create-user.dto'
 import { User } from './entities/user.entity'
@@ -10,15 +14,18 @@ export class UserService {
   constructor(private readonly repository: UserRepository) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const data: CreateUserDto = {
-      ...createUserDto,
-      password: await bcrypt.hash(createUserDto.password, 10),
-    }
-
-    const createdUser = await this.repository.create(data)
-    return {
-      ...createdUser,
-      password: undefined,
+    try {
+      const data: CreateUserDto = {
+        ...createUserDto,
+        password: await bcrypt.hash(createUserDto.password, 10),
+      }
+      const createdUser = await this.repository.create(data)
+      return {
+        ...createdUser,
+        password: undefined,
+      }
+    } catch (error) {
+      throw new UnprocessableEntityException(error.message)
     }
   }
 
